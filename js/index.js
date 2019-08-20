@@ -1,4 +1,5 @@
 window.onload = function(){
+				test();
 				let sliderElement = document.querySelector('.slider');
 				let containerElement = sliderElement.querySelector('.container');
 				let btnsElement = sliderElement.querySelector('.btns');
@@ -6,11 +7,10 @@ window.onload = function(){
 				let btnRight = btnsElement.querySelector('.btn_right');
 				let dotsElement = sliderElement.querySelector('.dots');
 				
-
+				
 				let index = 0;
 				let timer = null;
 				let count = sliderElement.querySelectorAll('.content').length;
-				//				动态添加轨迹点
 
 				for(i = 0; i < count; i++) {
 					//					dotsElement.insertAdjacentHTML('beforeend','<li></li>');
@@ -36,6 +36,7 @@ window.onload = function(){
 					} else {
 						index = count - 1;
 					}
+					
 					render(index);
 				}
 
@@ -62,6 +63,7 @@ window.onload = function(){
 							el.removeAttribute('class');
 						}
 					}
+					
 				}
 
 				　
@@ -78,6 +80,9 @@ window.onload = function(){
 					})(i)
 					
 				}
+				
+				
+	
 				
 				let head_ul = document.querySelector('.head_ul');
 				let head_lis = head_ul.getElementsByTagName('li'); 
@@ -103,6 +108,13 @@ window.onload = function(){
 				head_input[0].addEventListener('mouseout', () => {
 					head_input[0].childNodes[0].setAttribute('style', 'width:200px;border: 3px solid #ccc;transition: all 2s;');
 				}, false)
+				
+				
+				
+				
+				
+				
+				
 }
 $(document).ready(function(){
     $('.dropdown').hover(function(){
@@ -113,3 +125,101 @@ $(document).ready(function(){
         $('.dropdown>span').css({'color':'#ccc'});
     })
 });
+function test(){
+	let secondElement = document.querySelector('.second_body');
+				let contentElement = secondElement.querySelector('.inner_content');
+				let ulElement = contentElement.querySelectorAll('.inner_ul');
+				let btnPre = secondElement.querySelector('.pre');
+				let btnNext = secondElement.querySelector('.next');
+				
+				let current = 0;
+				let indexContent = 0;
+				let timerContent = null;
+				let countContent = secondElement.querySelectorAll('.inner_ul').length;
+				
+				let leftBiao = document.querySelector('.left_biao');
+				let rightBiao = document.querySelector('.right_biao');
+				
+				renderContent();
+
+
+				btnPre.addEventListener('click', preContent);
+				btnNext.addEventListener('click', nextContent);
+				
+				btnPre.addEventListener('mouseout', BiaoLeftOut);
+				btnNext.addEventListener('mouseout', BiaoRightOut);
+				
+				function BiaoLeftOut(){
+					leftBiao.setAttribute('style', 'display:none');
+					
+					
+				}
+
+				function BiaoRightOut(){
+					rightBiao.setAttribute('style', 'display:none');
+					
+				}
+				
+				function perDecOpcity(num){
+					ulElement[current].children[4].setAttribute('style', 'opacity:0;transition:all 1s ease;');
+					ulElement[current].children[3].setAttribute('style', 'opacity:0;transition:all 2s ease;');
+					ulElement[current].children[2].setAttribute('style', 'opacity:0;transition:all 3s ease;');
+					ulElement[current].children[1].setAttribute('style', 'opacity:0;transition:all 4s ease;');
+					ulElement[current].children[0].setAttribute('style', 'opacity:0;transition:all 5s ease;');
+				}
+
+				function NextDecOpcity(num){
+					ulElement[current].children[0].setAttribute('style', 'opacity:0;transition:all 1s ease;');
+					ulElement[current].children[1].setAttribute('style', 'opacity:0;transition:all 2s ease;');
+					ulElement[current].children[2].setAttribute('style', 'opacity:0;transition:all 3s ease;');
+					ulElement[current].children[3].setAttribute('style', 'opacity:0;transition:all 4s ease;');
+					ulElement[current].children[4].setAttribute('style', 'opacity:0;transition:all 5s ease;');
+				}
+				function addOpcity(num){
+					ulElement[current].children[0].setAttribute('style', 'opacity:1;transition:all 1s ease;');
+					ulElement[current].children[1].setAttribute('style', 'opacity:1;transition:all 2s ease;');
+					ulElement[current].children[2].setAttribute('style', 'opacity:1;transition:all 3s ease;');
+					ulElement[current].children[3].setAttribute('style', 'opacity:1;transition:all 4s ease;');
+					ulElement[current].children[4].setAttribute('style', 'opacity:1;transition:all 5s ease;');
+				}
+				function preContent() {
+					if(indexContent == 0){
+						leftBiao.setAttribute('style', 'display:block');
+					}else{
+						leftBiao.setAttribute('style', 'display:none');
+					}
+					perDecOpcity(current);				
+					if(indexContent > 0) {
+						indexContent--;
+						current = indexContent;
+					} else {
+//						indexContent = countContent - 1;
+//						current = indexContent;
+						
+						
+					}
+					renderContent(indexContent,current);
+				}
+				function nextContent() {
+					if(indexContent == countContent - 1){
+						rightBiao.setAttribute('style', 'display:block');
+					}else{
+						rightBiao.setAttribute('style', 'display:none');
+					}
+					NextDecOpcity(current);
+					if(indexContent < countContent - 1) {
+						indexContent++;
+						current = indexContent;
+					} else {
+//						indexContent = 0;
+//						current = indexContent;
+						rightBiao.setAttribute('style', 'display:block;');
+
+					}
+					renderContent(indexContent);
+				}
+				function renderContent(indexContent,num) {
+					addOpcity(num);
+					contentElement.setAttribute('style', `left:${-indexContent+'00' }%;transition:all 5s ease;`);
+				}
+}
